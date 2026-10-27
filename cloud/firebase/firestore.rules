@@ -1,0 +1,10 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // FastAPI is the sole client. Admin SDK uses IAM, not these rules.
+    // Never expose service-account credentials to React.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
