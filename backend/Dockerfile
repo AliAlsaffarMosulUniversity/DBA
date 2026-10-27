@@ -1,0 +1,10 @@
+FROM python:3.14-slim
+WORKDIR /app
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+COPY app app
+COPY tests tests
+RUN useradd --uid 10001 --create-home appuser && mkdir /data && chown appuser /data
+USER appuser
+ENV UPLOAD_DIR=/data/uploads
+CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]

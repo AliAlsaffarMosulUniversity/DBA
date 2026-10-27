@@ -1,0 +1,9 @@
+fastapi==0.135.1
+uvicorn==0.41.0
+SQLAlchemy==2.0.48
+psycopg[binary]==3.3.3
+PyJWT==2.12.1
+python-multipart==0.0.22
+ortools==9.15.6755
+pytest==9.0.2
+httpx==0.28.1

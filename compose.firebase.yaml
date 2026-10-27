@@ -1,0 +1,29 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.firebase
+    environment:
+      DATABASE_BACKEND: firestore
+      FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID:?Set FIREBASE_PROJECT_ID}
+      FIREBASE_COLLECTION_PREFIX: ba_dms_
+      GOOGLE_APPLICATION_CREDENTIALS: /run/secrets/firebase-admin.json
+      JWT_SECRET: ${JWT_SECRET:?Set JWT_SECRET}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD:-}
+    volumes:
+      - uploads:/data
+      - ${FIREBASE_SERVICE_ACCOUNT_FILE:?Set local key path}:/run/secrets/firebase-admin.json:ro
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 15s
+      timeout: 10s
+      retries: 10
+  frontend:
+    build: ./frontend
+    ports:
+      - "127.0.0.1:8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+volumes:
+  uploads:

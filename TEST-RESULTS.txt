@@ -1,0 +1,28 @@
+BA-DMS 0.2 validation — 2026-10-27
+Environment: Windows, Python 3.14.7, Node 24.21.0.
+
+pytest -q => 34 passed, 1 warning, 19.85s.
+Warning: Starlette httpx TestClient integration deprecated; not a test failure.
+SQL route tests use isolated SQLite. Firestore route contract tests use explicit MemoryStore.
+No Firebase Admin SDK, emulator, IAM, cloud transaction, or security-rules integration success is claimed.
+
+Coverage: authentication/permissions; token revocation and account disabling;
+manual teacher profiles and safe academic links; import idempotence and isolation;
+academic references, overlap and deletion guards; notification view vs acknowledgement;
+recipient/attachment isolation and archive; body/file size/content validation; CSV formula safety;
+scheduling constraints and impossible/timeout states; monitored exams and shared students;
+approval/publication/version isolation; additive SQL migration; offline one-way document migration.
+Scale fixture: 360 sessions, 45 teachers, 30 groups, 21 rooms, 5 days, 12 periods: feasible CP-SAT result independently checked.
+
+Frontend: npm run build -- --configLoader runner => PASS (TypeScript and Vite 7.3.7).
+Browser: academic catalog read; weekly generation with actual dates/times;
+head approval then publication; published plan visible to teacher;
+manual teacher creation, persisted success, and search: PASS.
+Earlier notice creation/acknowledgement browser flow remains covered by route regression tests.
+preview-v2.jpg shows synthetic manual teacher creation, not the real faculty data.
+
+Actual source: 36 spreadsheet responses, 35 distinct Arabic names. 35 imported inactive faculty + 1 admin in a separate local database.
+Offline migration contract preserved all local documents; no source data uploaded.
+
+NOT RUN: Docker builds, PostgreSQL, Firebase Admin SDK/cloud/emulator, cloud backups/restores.
+Firebase browser project creation and GitHub publication are separate external actions, recorded separately upon confirmed completion.
